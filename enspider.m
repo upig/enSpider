@@ -54,9 +54,9 @@ function DownloadNovel(novel_url, url_head, begin_content_cnt)
     novel_info.title = strrep(novel_info.title, '\', ' ');
 
     if begin_content_cnt>1
-        fp = fopen([novel_info.title,'.html'], 'a', 'n', 'native', 'UTF-8');
+        fp = fopen([novel_info.title,'.html'], 'a', 'n', 'UTF-8');
     else
-        fp = fopen([novel_info.title,'.html'], 'w', 'n', 'native', 'UTF-8');
+        fp = fopen([novel_info.title,'.html'], 'w', 'n', 'UTF-8');
         fprintf(fp, ['<h1>',novel_info.title,'</h1>\n']);
     end
 
@@ -93,7 +93,7 @@ function DownloadNovel(novel_url, url_head, begin_content_cnt)
             %解析正文内容
             content = ParseContent(str);
             fprintf(fp, ['<h1>',c_url_title,'</h1>\n']);
-            fwrite(fp, content);
+            fprintf(fp, content);
             fprintf(fp, '\n');
         end
     end
