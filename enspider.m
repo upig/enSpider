@@ -19,11 +19,11 @@ clc
 % 
 url_head = 'http://novelfull.com/'; %@todo 需改为自动获取 
 
-DownloadNovel('http://novelfull.com/index.php/lord-of-the-mysteries.html', url_head);
-DownloadNovel('http://novelfull.com/genius-doctor-black-belly-miss.html', url_head);
-DownloadNovel('http://novelfull.com/otherworldly-evil-monarch.html', url_head);
-DownloadNovel('http://novelfull.com/hidden-marriage.html', url_head);
-DownloadNovel('http://novelfull.com/ancient-godly-monarch.html', url_head);
+%DownloadNovel('http://novelfull.com/index.php/lord-of-the-mysteries.html', url_head);
+%DownloadNovel('http://novelfull.com/genius-doctor-black-belly-miss.html', url_head);
+% DownloadNovel('http://novelfull.com/otherworldly-evil-monarch.html', url_head);
+% DownloadNovel('http://novelfull.com/hidden-marriage.html', url_head);
+% DownloadNovel('http://novelfull.com/ancient-godly-monarch.html', url_head);
 DownloadNovel('http://novelfull.com/god-of-slaughter.html', url_head);
 DownloadNovel('http://novelfull.com/dragon-marked-war-god.html', url_head);
 DownloadNovel('http://novelfull.com/reincarnation-of-the-strongest-sword-god.html', url_head);
@@ -49,14 +49,13 @@ function DownloadNovel(novel_url, url_head, begin_content_cnt)
 
     novel_info = ParseNovelPage(data);
 
-    novel_info.title = strrep(novel_info.title, ':', ' ');
-    novel_info.title = strrep(novel_info.title, '/', ' ');
-    novel_info.title = strrep(novel_info.title, '\', ' ');
+    novel_info.title = regexprep(novel_info.title,  '[/\\\?*:"<>|]', '');
+    novel_info.author = regexprep(novel_info.author,  '[/\\\?*:"<>|]', '');
 
     if begin_content_cnt>1
-        fp = fopen([novel_info.title,'.html'], 'a', 'n', 'UTF-8');
+        fp = fopen([novel_info.title, ' - ',novel_info.author, '.html'], 'a', 'n', 'UTF-8');
     else
-        fp = fopen([novel_info.title,'.html'], 'w', 'n', 'UTF-8');
+        fp = fopen([novel_info.title, ' - ',novel_info.author, '.html'], 'w', 'n', 'UTF-8');
         fprintf(fp, ['<h1>',novel_info.title,'</h1>\n']);
     end
 
