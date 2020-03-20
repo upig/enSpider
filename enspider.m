@@ -19,25 +19,25 @@ clc
 % 
 url_head = 'http://novelfull.com/'; %@todo 需改为自动获取 
 
-DownloadNovel('https://novelfull.com/lord-xue-ying.html', url_head);
-DownloadNovel('https://novelfull.com/emperors-domination.html', url_head);
-DownloadNovel('https://novelfull.com/battle-through-the-heavens.html', url_head);
 %DownloadNovel('http://novelfull.com/index.php/lord-of-the-mysteries.html', url_head);
+%DownloadNovel('https://novelfull.com/lord-xue-ying.html', url_head);
+%DownloadNovel('https://novelfull.com/emperors-domination.html', url_head);
+%DownloadNovel('https://novelfull.com/battle-through-the-heavens.html', url_head);
 %DownloadNovel('http://novelfull.com/genius-doctor-black-belly-miss.html', url_head);
-% DownloadNovel('http://novelfull.com/otherworldly-evil-monarch.html', url_head);
-% DownloadNovel('http://novelfull.com/hidden-marriage.html', url_head);
-% DownloadNovel('http://novelfull.com/ancient-godly-monarch.html', url_head);
-% DownloadNovel('http://novelfull.com/god-of-slaughter.html', url_head);
-% DownloadNovel('http://novelfull.com/dragon-marked-war-god.html', url_head);
-% DownloadNovel('http://novelfull.com/reincarnation-of-the-strongest-sword-god.html', url_head);
-% DownloadNovel('http://novelfull.com/peerless-martial-god.html', url_head);
-% DownloadNovel('http://novelfull.com/super-gene.html', url_head);
-% DownloadNovel('http://novelfull.com/king-of-gods.html', url_head);
-% DownloadNovel('http://novelfull.com/strongest-abandoned-son.html', url_head);
-% DownloadNovel('http://novelfull.com/my-house-of-horrors.html', url_head);
-% DownloadNovel('http://novelfull.com/trial-marriage-husband-need-to-work-hard.html', url_head);
-% DownloadNovel('http://novelfull.com/perfect-secret-love-the-bad-new-wife-is-a-little-sweet.html', url_head);
-% DownloadNovel('http://novelfull.com/martial-world.html', url_head);
+DownloadNovel('http://novelfull.com/otherworldly-evil-monarch.html', url_head,167);
+DownloadNovel('http://novelfull.com/hidden-marriage.html', url_head);
+DownloadNovel('http://novelfull.com/ancient-godly-monarch.html', url_head);
+DownloadNovel('http://novelfull.com/god-of-slaughter.html', url_head);
+DownloadNovel('http://novelfull.com/dragon-marked-war-god.html', url_head);
+DownloadNovel('http://novelfull.com/reincarnation-of-the-strongest-sword-god.html', url_head);
+DownloadNovel('http://novelfull.com/peerless-martial-god.html', url_head);
+DownloadNovel('http://novelfull.com/super-gene.html', url_head);
+DownloadNovel('http://novelfull.com/king-of-gods.html', url_head);
+DownloadNovel('http://novelfull.com/strongest-abandoned-son.html', url_head);
+DownloadNovel('http://novelfull.com/my-house-of-horrors.html', url_head);
+DownloadNovel('http://novelfull.com/trial-marriage-husband-need-to-work-hard.html', url_head);
+DownloadNovel('http://novelfull.com/perfect-secret-love-the-bad-new-wife-is-a-little-sweet.html', url_head);
+DownloadNovel('http://novelfull.com/martial-world.html', url_head);
 
 
 function DownloadNovel(novel_url, url_head, begin_content_cnt)
@@ -109,12 +109,18 @@ function str = xwebread(url)
     for i=1:15
         try
             str = webread(url, options); 
+            index = regexp(str,'</html>$', 'ONCE');
+            if isempty(index)
+                str = [];
+                continue
+            end
             break;
         catch
             warning(['ReadTimeOut:',url]);
             pause(i);
         end
     end
+    
 end
 
 %FileWrite("tmp.txt", data);
@@ -168,6 +174,9 @@ function str = ParseContent(str)
 		
     str = regexprep(str,  '<p><p>', '<p>');  
     str = regexprep(str,  '<p></p>', '');  
+    
+     str = regexprep(str,  '%', '%%'); 
+     str = regexprep(str,  '\\', '\\\\');
 end
 
 
